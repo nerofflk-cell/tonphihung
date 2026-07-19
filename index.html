@@ -3,251 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosmic Mod Skin | Giao Diện Vũ Trụ</title>
+    <title>Kho Mod Chuyên Nghiệp | Vũ Trụ Skin</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        /* Đặt lại lề và cài đặt font chữ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body, html {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #05050f; /* Màu nền vũ trụ tối */
+        body {
+            background-color: #05050f;
+            color: #fff;
             font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
         }
 
-        /* Canvas chứa hiệu ứng ngôi sao */
-        #space-canvas {
-            position: absolute;
+        /* Nền vũ trụ tĩnh để web nhẹ hơn khi có nhiều Mod */
+        .bg-space {
+            position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-
-        /* Khung nội dung chính */
-        .container {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            width: 100vw;
             height: 100vh;
-            padding: 20px;
-        }
-
-        /* Hiệu ứng kính mờ (Glassmorphism) cho thẻ Skin */
-        .skin-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 50px 40px;
-            text-align: center;
-            max-width: 500px;
-            width: 100%;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), 
-                        0 0 20px rgba(138, 43, 226, 0.2);
-            transition: transform 0.4s ease;
-        }
-
-        .skin-card:hover {
-            transform: translateY(-10px);
-            border: 1px solid rgba(0, 212, 255, 0.3);
-            box-shadow: 0 15px 40px 0 rgba(0, 0, 0, 0.5), 
-                        0 0 30px rgba(0, 212, 255, 0.3);
-        }
-
-        /* Tiêu đề */
-        h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            /* Hiệu ứng chữ Gradient */
-            background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0px 0px 20px rgba(0, 210, 255, 0.3);
-        }
-
-        /* Đoạn văn mô tả */
-        p {
-            color: #b3b3cc;
-            font-size: 1rem;
-            margin-bottom: 40px;
-            line-height: 1.5;
-        }
-
-        /* =========================================
-           NÚT TẢI XUỐNG CỰC ĐẸP
-           ========================================= */
-        .btn-download {
-            position: relative;
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            padding: 16px 40px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #fff;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            background: linear-gradient(45deg, #ff007a, #7a00ff);
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            overflow: hidden;
-            z-index: 1;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 15px rgba(255, 0, 122, 0.5), 
-                        0 0 30px rgba(122, 0, 255, 0.5);
-        }
-
-        /* Hiệu ứng hover phát sáng mạnh hơn và phóng to */
-        .btn-download:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(255, 0, 122, 0.8), 
-                        0 0 50px rgba(122, 0, 255, 0.8),
-                        0 0 80px rgba(0, 212, 255, 0.6);
-            color: #fff;
-        }
-
-        /* Lớp giả tạo hiệu ứng quét ánh sáng ngang nút */
-        .btn-download::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transition: left 0.5s ease;
+            background: radial-gradient(circle at center, #1a1a3a 0%, #05050f 100%);
             z-index: -1;
         }
 
-        .btn-download:hover::before {
-            left: 100%;
+        /* Thanh điều hướng (Header) */
+        header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        /* Icon nhỏ SVG trong nút */
-        .btn-download svg {
-            width: 24px;
-            height: 24px;
-            margin-right: 10px;
-            fill: currentColor;
-            animation: bounce 2s infinite;
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* Hiệu ứng nhún nhảy cho Icon tải xuống */
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-5px); }
-            60% { transform: translateY(-3px); }
+        .upload-btn-fake {
+            background: linear-gradient(45deg, #ff007a, #7a00ff);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+            box-shadow: 0 0 15px rgba(255, 0, 122, 0.4);
+        }
+
+        .upload-btn-fake:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(122, 0, 255, 0.6);
+        }
+
+        /* Lưới chứa các Mod (Grid) */
+        .mod-container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        /* Thẻ Mod đơn lẻ */
+        .mod-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, border 0.3s;
+        }
+
+        .mod-card:hover {
+            transform: translateY(-10px);
+            border: 1px solid rgba(0, 212, 255, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .mod-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            background-color: #1a1a2e; /* Màu nền nếu chưa có ảnh */
+        }
+
+        .mod-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #00d2ff;
+        }
+
+        .mod-desc {
+            font-size: 0.9rem;
+            color: #b3b3cc;
+            margin-bottom: 20px;
+            height: 40px;
+            overflow: hidden;
+        }
+
+        .download-btn {
+            display: block;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid #00d2ff;
+            color: #00d2ff;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .download-btn:hover {
+            background: #00d2ff;
+            color: #000;
+            box-shadow: 0 0 15px #00d2ff;
         }
     </style>
 </head>
 <body>
 
-    <!-- Canvas tạo nền vũ trụ -->
-    <canvas id="space-canvas"></canvas>
+    <div class="bg-space"></div>
 
-    <!-- Khung giao diện chính -->
-    <div class="container">
-        <div class="skin-card">
-            <h1>Galaxy Skin</h1>
-            <p>Trải nghiệm bộ mod skin độc quyền với hiệu ứng vũ trụ vô cực. Tối ưu hoá mượt mà, không giật lag. Khám phá ngay!</p>
-            
-            <a href="#" class="btn-download">
-                <!-- Icon Download -->
-                <svg viewBox="0 0 24 24">
-                    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-                </svg>
-                TẢI XUỐNG
-            </a>
+    <!-- Phần Header -->
+    <header>
+        <div class="logo">GALAXY MODS</div>
+        <a href="#" class="upload-btn-fake" onclick="alert('Chức năng Đăng Mod đang được nâng cấp! Vui lòng liên hệ Admin.')">ĐĂNG MOD</a>
+    </header>
+
+    <!-- Danh sách các Mod -->
+    <div class="mod-container">
+        
+        <!-- Mod 1 -->
+        <div class="mod-card">
+            <img src="anh-bia-1.jpg" alt="Skin Mod" class="mod-image">
+            <h3 class="mod-title">Skin Hắc Bạch Vô Thường</h3>
+            <p class="mod-desc">Giao diện mang đậm chất hắc bạch vô thường, hiệu ứng kĩ năng độc quyền.</p>
+            <a href="link-tai-mod-1.zip" class="download-btn">TẢI XUỐNG</a>
         </div>
+
+        <!-- Mod 2 -->
+        <div class="mod-card">
+            <img src="anh-bia-2.jpg" alt="Tattoo Mod" class="mod-image">
+            <h3 class="mod-title">Irezumi Full Body</h3>
+            <p class="mod-desc">Mod hình xăm Nhật cổ chi tiết cao, phủ kín body, cánh tay và đùi.</p>
+            <a href="link-tai-mod-2.zip" class="download-btn">TẢI XUỐNG</a>
+        </div>
+
+        <!-- Mod 3 -->
+        <div class="mod-card">
+            <img src="anh-bia-3.jpg" alt="Hair Mod" class="mod-image">
+            <h3 class="mod-title">Mod Tóc Dài Cực Đẹp</h3>
+            <p class="mod-desc">Chỉnh sửa ngoại hình nhân vật với mái tóc dài bồng bềnh, mượt mà.</p>
+            <a href="link-tai-mod-3.zip" class="download-btn">TẢI XUỐNG</a>
+        </div>
+
+        <!-- Bạn có thể copy thẻ <div class="mod-card">...</div> để thêm bao nhiêu Mod tùy thích -->
+
     </div>
 
-    <!-- Script tạo hiệu ứng sao bay trong vũ trụ -->
-    <script>
-        const canvas = document.getElementById('space-canvas');
-        const ctx = canvas.getContext('2d');
-
-        let width, height, stars;
-
-        // Cập nhật kích thước canvas theo màn hình
-        function initCanvas() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-            stars = [];
-            // Tạo 200 ngôi sao
-            for (let i = 0; i < 200; i++) {
-                stars.push(new Star());
-            }
-        }
-
-        // Lớp Ngôi sao
-        class Star {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.size = Math.random() * 2 + 0.5; // Kích thước ngẫu nhiên
-                this.speedX = (Math.random() - 0.5) * 0.5; // Tốc độ trôi dạt
-                this.speedY = Math.random() * 1.5 + 0.5;   // Tốc độ rơi từ trên xuống (cảm giác bay tới)
-                this.opacity = Math.random();
-            }
-
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-
-                // Nếu sao bay ra khỏi màn hình, reset lại vị trí
-                if (this.y > height) {
-                    this.y = 0;
-                    this.x = Math.random() * width;
-                }
-                if (this.x > width) this.x = 0;
-                if (this.x < 0) this.x = width;
-            }
-
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
-                ctx.fill();
-            }
-        }
-
-        // Vòng lặp animation
-        function animate() {
-            // Xóa nền mờ mờ để tạo vệt sao (trail effect)
-            ctx.fillStyle = 'rgba(5, 5, 15, 0.2)';
-            ctx.fillRect(0, 0, width, height);
-
-            stars.forEach(star => {
-                star.update();
-                star.draw();
-            });
-
-            requestAnimationFrame(animate);
-        }
-
-        // Lắng nghe sự kiện thay đổi kích thước cửa sổ
-        window.addEventListener('resize', initCanvas);
-
-        // Chạy khởi tạo
-        initCanvas();
-        animate();
-    </script>
 </body>
 </html>
